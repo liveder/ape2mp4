@@ -21,6 +21,12 @@ if [ $tracknow -ne $ntrack ]; then
     cuebreakpoints "$cue_file" | shnsplit -O always -a "$file/" -o ape "$file.ape"
 fi
 
+if [ `file -bi "$cue_file"|grep -c utf` -eq 0 ]; then
+    cp "$cue_file" "$cue_file.old"
+    iconv -f WINDOWS-1251 -t UTF-8 "$cue_file" > tmp
+    mv tmp "$cue_file"
+fi
+
 j=1
 
     for j in `ls "$file"`; do
