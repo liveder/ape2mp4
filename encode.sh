@@ -29,7 +29,9 @@ j=1
         artist=`cueprint -n $j -t "%p" "$cue_file"`
         genre=`cueprint -n $j -t "%g" "$cue_file"`
         tracknumber=`cueprint -n $j -t "%n" "$cue_file"`/`cueprint -n $j -t "%N" "$cue_file"`
-
-        ffmpeg -i "$file/$j" -strict -2 -acodec libfaac -metadata title=\""$title"\" -metadata album=\""$album"\" -metadata artist=\""$artist"\" -metadata genre=\""$genre"\" -metadata track=\""$tracknumber"\" -ac 2 -ar 44100 -ab 256k "$savefolder/$artist/$artist - $title.mp4"
+        if ! [ -d "$savefolder/$artist - $album" ]; then
+            mkdir "$savefolder/$artist - $album"
+        fi
+        ffmpeg -i "$file/$j" -strict -2 -acodec libfaac -metadata title="$title" -metadata album="$album" -metadata artist="$artist" -metadata genre="$genre" -metadata track="$tracknumber" -ac 2 -ar 44100 -ab 256k "$savefolder/$artist - $album/$artist - $title.mp4"
     done
 done
